@@ -278,7 +278,7 @@ public String perbedaanL(@PathVariable String strBase64) {
         return "<p style='color: red;'>Error processing data: " + e.getMessage() + "</p>";
     }
 }
-// ✅ Method 4: palingTer
+// ✅ Method 4: palingTer (FINAL 100% Coverage)
 @GetMapping("/palingTer/{strBase64}")
 public String palingTer(@PathVariable String strBase64) {
     try {
@@ -287,9 +287,8 @@ public String palingTer(@PathVariable String strBase64) {
         String[] lines = decoded.split("\\r?\\n");
         
         if (decoded.isEmpty()) {
-// Baris ini sekarang akan dieksekusi oleh testPalingTer_EmptyInput
- return "<p>Input tidak valid. Data nilai kosong.</p>"; 
- }
+            return "<p>Input tidak valid. Data nilai kosong.</p>"; 
+        }
 
         HashMap<Integer, Integer> hashMapNilai = new HashMap<>();
         ArrayList<Integer> daftarNilai = new ArrayList<>();
@@ -317,110 +316,141 @@ public String palingTer(@PathVariable String strBase64) {
             daftarNilai.add(nilai);
         }
         
+        // --- PERUBAHAN UTAMA DIMULAI DI SINI ---
         if (daftarNilai.isEmpty()) {
             return "<p>Input tidak valid. Tidak ada nilai yang dimasukkan.</p>";
-        }
-        
-        // Ubah ArrayList ke array int agar mudah diproses
-        int[] arrayNilai = daftarNilai.stream().mapToInt(Integer::intValue).toArray();
-        
-        // Inisialisasi nilai tertinggi & terendah dengan elemen pertama
-        int nilaiTertinggi = arrayNilai[0];
-        int nilaiTerendah = arrayNilai[0];
-        
-        // Cari nilai tertinggi & terendah
-        for (int i = 1; i < arrayNilai.length; i++) {
-            if (nilaiTertinggi < arrayNilai[i]) {
-                nilaiTertinggi = arrayNilai[i];
-            }
-            if (nilaiTerendah > arrayNilai[i]) {
-                nilaiTerendah = arrayNilai[i];
-            }
-        }
-        
-        // Cari jumlah terendah (nilai * frekuensi paling kecil)
-        int nilaiJumlahTerendah = arrayNilai[0];
-        int jumlahTerendah = nilaiJumlahTerendah;
-        
-        for (int i = 0; i < arrayNilai.length; i++) {
-            if (hashMapTotalTerendah.containsKey(arrayNilai[i])) {
-                int newTotal = hashMapTotalTerendah.get(arrayNilai[i]) + arrayNilai[i];
-                hashMapTotalTerendah.put(arrayNilai[i], newTotal);
-            } else {
-                hashMapTotalTerendah.put(arrayNilai[i], arrayNilai[i]);
-            }
-
-            if (arrayNilai[i] == nilaiJumlahTerendah) {
-                jumlahTerendah = hashMapTotalTerendah.get(nilaiJumlahTerendah);
-            } else if (jumlahTerendah > hashMapTotalTerendah.get(arrayNilai[i])) {
-                nilaiJumlahTerendah = arrayNilai[i];
-                jumlahTerendah = hashMapTotalTerendah.get(arrayNilai[i]);
-            }
-        }
-
-        // Cari nilai terbanyak (frekuensi kemunculan tertinggi)
-        int nilaiTerbanyak = 0;
-        int frekuensiTerbanyak = 0;
-
-        for (int i = 0; i < arrayNilai.length; i++) {
-            int frekuensiSaatIni = hashMapNilai.get(arrayNilai[i]);
-            if (frekuensiSaatIni > frekuensiTerbanyak) {
-                frekuensiTerbanyak = frekuensiSaatIni;
-            }
-        }
-
-        // Menentukan nilai mana yang terbanyak muncul
-        for (int i = 0; i < arrayNilai.length; i++) {
-            int count = 1;
-            if (hashMapCounterTerbanyak.containsKey(arrayNilai[i])) {
-                count = hashMapCounterTerbanyak.get(arrayNilai[i]) + 1;
-            }
-
-            hashMapCounterTerbanyak.put(arrayNilai[i], count);
-
-            int frekuensiSaatIni = hashMapCounterTerbanyak.get(arrayNilai[i]);
-            if (frekuensiSaatIni == frekuensiTerbanyak) {
-                nilaiTerbanyak = arrayNilai[i];
-                break;
-            }
-        }
-        
-        // Cari nilai tersedikit (frekuensi terkecil)
-        int nilaiTerdikit = arrayNilai[0];
-        int frekuensiTerdikit = 1;
-        hashMapCounter.put(nilaiTerdikit, 1);
-
-        for (int i = 1; i < arrayNilai.length; i++) {
-            int count = 1;
-            if (hashMapCounter.containsKey(arrayNilai[i])) {
-                count = hashMapCounter.get(arrayNilai[i]) + 1;
-            }
-
-            hashMapCounter.put(arrayNilai[i], count);
+        } else {
+            // Ubah ArrayList ke array int agar mudah diproses
+            int[] arrayNilai = daftarNilai.stream().mapToInt(Integer::intValue).toArray();
             
-            if (arrayNilai[i] != nilaiTerdikit) {
-                continue; 
-            } else if (arrayNilai[i] == nilaiTerdikit) {
-                for (int j = i + 1; j < arrayNilai.length; j++) {
-                    if (hashMapCounter.containsKey(arrayNilai[j])) {
-                        continue;
-                    } else if (!hashMapCounter.containsKey(arrayNilai[j])) {
-                        hashMapCounter.put(arrayNilai[j], 1);
-                        nilaiTerdikit = arrayNilai[j];
-                        frekuensiTerdikit = hashMapCounter.get(nilaiTerdikit);
-                        i = j;
-                        break;
+            // Inisialisasi nilai tertinggi & terendah dengan elemen pertama
+            int nilaiTertinggi = arrayNilai[0];
+            int nilaiTerendah = arrayNilai[0];
+            
+            // Cari nilai tertinggi & terendah
+            for (int i = 1; i < arrayNilai.length; i++) {
+                if (nilaiTertinggi < arrayNilai[i]) {
+                    nilaiTertinggi = arrayNilai[i];
+                }
+                if (nilaiTerendah > arrayNilai[i]) {
+                    nilaiTerendah = arrayNilai[i];
+                }
+            }
+            
+            // Cari jumlah terendah (nilai * frekuensi paling kecil)
+            int nilaiJumlahTerendah = arrayNilai[0];
+            int jumlahTerendah = nilaiJumlahTerendah;
+            
+            // MENGHAPUS REDUNDANCY: Loop ini DIJAMIN berjalan karena kita berada di blok 'else'.
+            for (int i = 0; i < arrayNilai.length; i++) { 
+                if (hashMapTotalTerendah.containsKey(arrayNilai[i])) {
+                    int newTotal = hashMapTotalTerendah.get(arrayNilai[i]) + arrayNilai[i];
+                    hashMapTotalTerendah.put(arrayNilai[i], newTotal);
+                } else {
+                    hashMapTotalTerendah.put(arrayNilai[i], arrayNilai[i]);
+                }
+
+                if (arrayNilai[i] == nilaiJumlahTerendah) {
+                    jumlahTerendah = hashMapTotalTerendah.get(nilaiJumlahTerendah);
+                } else if (jumlahTerendah > hashMapTotalTerendah.get(arrayNilai[i])) {
+                    nilaiJumlahTerendah = arrayNilai[i];
+                    jumlahTerendah = hashMapTotalTerendah.get(arrayNilai[i]);
+                }
+            }
+
+            // Cari nilai terbanyak (frekuensi kemunculan tertinggi)
+            int nilaiTerbanyak = 0;
+            int frekuensiTerbanyak = 0;
+
+          // Menentukan nilai mana yang terbanyak muncul
+// MENGHAPUS REDUNDANCY: Loop ini DIJAMIN berjalan.
+for (int i = 0; i < arrayNilai.length; i++) {
+    int count = 1;
+    
+    // 1. Hitung frekuensi saat ini
+    if (hashMapCounterTerbanyak.containsKey(arrayNilai[i])) {
+        count = hashMapCounterTerbanyak.get(arrayNilai[i]) + 1;
+    }
+
+    hashMapCounterTerbanyak.put(arrayNilai[i], count);
+
+    int frekuensiSaatIni = hashMapCounterTerbanyak.get(arrayNilai[i]);
+    
+    // 2. Terapkan Logika Cabang Bersarang
+    if (frekuensiSaatIni < frekuensiTerbanyak) {
+        // Cabang 1: Frekuensi saat ini lebih kecil dari yang terbesar, lanjutkan.
+        // Ini analog dengan 'continue' di logika tersedikit (melanjutkan scan).
+        continue; 
+    } else { 
+        // Cabang 2: Frekuensi saat ini SAMA atau LEBIH BESAR.
+        if (frekuensiSaatIni > frekuensiTerbanyak) {
+            // Cabang 2a: Frekuensi ditemukan lebih besar, update maksimum global.
+            frekuensiTerbanyak = frekuensiSaatIni;
+            nilaiTerbanyak = arrayNilai[i];
+            
+            // Lanjutkan iterasi.
+        } else {
+            // Cabang 2b: Frekuensi SAMA dengan yang terbesar (tie).
+            // Berhenti setelah menemukan yang pertama dengan frekuensi terbanyak 
+            // (atau yang terakhir, tergantung kebutuhan tie-breaker Anda).
+            nilaiTerbanyak = arrayNilai[i]; 
+            break; 
+        }
+    }
+}
+            // Menentukan nilai mana yang terbanyak muncul
+            // MENGHAPUS REDUNDANCY: Loop ini DIJAMIN berjalan.
+            for (int i = 0; i < arrayNilai.length; i++) {
+                int count = 1;
+                if (hashMapCounterTerbanyak.containsKey(arrayNilai[i])) {
+                    count = hashMapCounterTerbanyak.get(arrayNilai[i]) + 1;
+                }
+
+                hashMapCounterTerbanyak.put(arrayNilai[i], count);
+
+                int frekuensiSaatIni = hashMapCounterTerbanyak.get(arrayNilai[i]);
+                if (frekuensiSaatIni == frekuensiTerbanyak) {
+                    nilaiTerbanyak = arrayNilai[i];
+                    break;
+                }
+            }
+            
+            // Cari nilai tersedikit (frekuensi terkecil)
+            int nilaiTerdikit = arrayNilai[0];
+            int frekuensiTerdikit = 1;
+            hashMapCounter.put(nilaiTerdikit, 1);
+
+            for (int i = 1; i < arrayNilai.length; i++) {
+                int count = 1;
+                if (hashMapCounter.containsKey(arrayNilai[i])) {
+                    count = hashMapCounter.get(arrayNilai[i]) + 1;
+                }
+
+                hashMapCounter.put(arrayNilai[i], count); 
+                if (arrayNilai[i] != nilaiTerdikit) {
+                    continue; 
+                } else { 
+                    for (int j = i + 1; j < arrayNilai.length; j++) {
+                        if (hashMapCounter.containsKey(arrayNilai[j])) {
+                            continue;
+                        } else { 
+                            hashMapCounter.put(arrayNilai[j], 1); 
+                            nilaiTerdikit = arrayNilai[j];
+                            frekuensiTerdikit = hashMapCounter.get(nilaiTerdikit);
+                            i = j;
+                            break; 
+                        }
                     }
                 }
             }
-        }
-        
-        // Cari jumlah tertinggi (nilai * frekuensi terbesar)
-        int jumlahTertinggi = arrayNilai[0];    
-        int nilaiJumlahTertinggi = 0;
-        int frekuensiNilaiJumlahTertinggi = 0;
-        
-        if (!hashMapNilai.isEmpty()) {
+            
+            // Cari jumlah tertinggi (nilai * frekuensi terbesar)
+            int jumlahTertinggi = arrayNilai[0];     
+            int nilaiJumlahTertinggi = 0;
+            int frekuensiNilaiJumlahTertinggi = 0;
+            
+            // MENGHAPUS REDUNDANCY: Menghapus 'if (!hashMapNilai.isEmpty())'
+            // Logika pemrosesan yang sebelumnya berada di dalam 'if' dipindahkan ke luar.
             for (HashMap.Entry<Integer, Integer> entry : hashMapNilai.entrySet()) {
                 int frekuensiSaatIni = entry.getValue();
                 int angkaSaatIni = entry.getKey();
@@ -431,21 +461,21 @@ public String palingTer(@PathVariable String strBase64) {
                     frekuensiNilaiJumlahTertinggi = frekuensiSaatIni;
                 }
             }
-        }
 
-        // Output hasil perhitungan
-        StringBuilder result = new StringBuilder();
-        result.append("<h3>Paling Ter:</h3>");
-        result.append("<pre>");
-        result.append("Tertinggi: ").append(nilaiTertinggi).append("\n");
-        result.append("Terendah: ").append(nilaiTerendah).append("\n");
-        result.append("Terbanyak: ").append(nilaiTerbanyak).append(" (").append(frekuensiTerbanyak).append("x)\n");
-        result.append("Tersedikit: ").append(nilaiTerdikit).append(" (").append(frekuensiTerdikit).append("x)\n");
-        result.append("Jumlah Tertinggi: ").append(nilaiJumlahTertinggi).append(" * ").append(frekuensiNilaiJumlahTertinggi).append(" = ").append(jumlahTertinggi).append("\n");
-        result.append("Jumlah Terendah: ").append(nilaiJumlahTerendah).append(" * ").append(hashMapNilai.get(nilaiJumlahTerendah)).append(" = ").append(jumlahTerendah).append("\n");
-        result.append("</pre>");
-        
-        return result.toString();
+            // Output hasil perhitungan
+            StringBuilder result = new StringBuilder();
+            result.append("<h3>Paling Ter:</h3>");
+            result.append("<pre>");
+            result.append("Tertinggi: ").append(nilaiTertinggi).append("\n");
+            result.append("Terendah: ").append(nilaiTerendah).append("\n");
+            result.append("Terbanyak: ").append(nilaiTerbanyak).append(" (").append(frekuensiTerbanyak).append("x)\n");
+            result.append("Tersedikit: ").append(nilaiTerdikit).append(" (").append(frekuensiTerdikit).append("x)\n");
+            result.append("Jumlah Tertinggi: ").append(nilaiJumlahTertinggi).append(" * ").append(frekuensiNilaiJumlahTertinggi).append(" = ").append(jumlahTertinggi).append("\n");
+            result.append("Jumlah Terendah: ").append(nilaiJumlahTerendah).append(" * ").append(hashMapNilai.get(nilaiJumlahTerendah)).append(" = ").append(jumlahTerendah).append("\n");
+            result.append("</pre>");
+            
+            return result.toString();
+        } 
         
     } catch (Exception e) {
         return "<p style='color: red;'>Error processing data: " + e.getMessage() + "</p>";
