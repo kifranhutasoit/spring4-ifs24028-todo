@@ -1,14 +1,20 @@
-package org.delcom.todos.controllers;
+package org.delcom.starter.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Base64;
+
 
 @RestController
 public class HomeController {
 
-    @GetMapping("/") /*  */
+    @GetMapping("/")
     public String hello() {
-        return "Hay, selamat datang di Spring Boot!";
+        return "Hay Abdullah, selamat datang di pengembangan aplikasi dengan Spring Boot!";
     }
 
 }

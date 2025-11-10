@@ -9,6 +9,8 @@
 ### 29-10-2025
 
 - Melakukan inisialisasi proyek
+- Menambahkan method `sayHello()` pada HomeController
+= Menambahkan pengujian untuk method `sayHello()`
 
 
 ## Syntax
@@ -40,8 +42,12 @@ command: `./mvnw test jacoco:report`
 
 command-check: `./mvnw clean test jacoco:check`
 
+<<<<<<< HEAD
 ## Purpose
 
 Proyek ini dibuat untuk tujuan **Pendidikan**.
 
+=======
+test
+>>>>>>> 678978baab68e13ebfffdbf3cc654a39d4b0b094
 
