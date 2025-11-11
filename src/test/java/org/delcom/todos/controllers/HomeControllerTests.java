@@ -1,4 +1,4 @@
-package org.delcom.todos.controllers;
+package org.delcom.starter.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +20,6 @@ class HomeControllerUnitTest {
         String result = controller.hello();
 
         // Assert
-<<<<<<< HEAD:src/test/java/org/delcom/todos/controllers/HomeControllerTests.java
-        assertEquals("Hay, selamat datang di Spring Boot!", result);
-=======
         assertEquals("Hay, selamat datang di aplikasi dengan Spring Boot!", result);
     }
 
@@ -615,6 +612,5 @@ class HomeControllerUnitTest {
             // Assert
             assertEquals(expected, result);
         }
->>>>>>> 678978baab68e13ebfffdbf3cc654a39d4b0b094:src/test/java/org/delcom/starter/controllers/HomeControllerTest.java
     }
 }
